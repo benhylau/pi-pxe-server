@@ -11,7 +11,7 @@ If this happens to be your very specific use case as well, then you're in luck. 
 
 ## Make A Custom Debian Live Image
 
-1. Get a root shell:
+1. Get a root shell and run the commands:
 
     ```
     # apt-get install -y live-build
@@ -48,8 +48,8 @@ If this happens to be your very specific use case as well, then you're in luck. 
 1. Add the [Arc Theme](https://github.com/horst3180/arc-theme) Debian repository:
 
     ```
-    # echo 'deb http://download.opensuse.org/repositories/home:/Horst3180/Debian_8.0/ /' > config/archives/arc-theme.list.chroot
-    # wget -nv http://download.opensuse.org/repositories/home:Horst3180/Debian_8.0/Release.key -O config/archives/arc-theme.key.chroot
+    # echo 'deb https://download.opensuse.org/repositories/home:/Horst3180/Debian_8.0/ /' > config/archives/arc-theme.list.chroot
+    # wget -nv https://download.opensuse.org/repositories/home:Horst3180/Debian_8.0/Release.key -O config/archives/arc-theme.key.chroot
     ```
 
 1. Select the packages I need and build the live image:
@@ -95,7 +95,7 @@ The default username is **user** with password **live**. Before building the nex
 1. Place your `.iso` live image file in **/srv/tftp/iso/** and add an entry to **/srv/tftp/pxelinux.cfg/default** like this:
 
     ```
-    LABEL my.iso
+    LABEL my_iso_name
     kernel memdisk
     append iso initrd=iso/my.iso
     ```
@@ -129,4 +129,4 @@ The default username is **user** with password **live**. Before building the nex
         }
         ```
 
-1. Reboot your Raspberry Pi and plug it into the client configured for PXE booting
+1. Reboot your Raspberry Pi and connect it to the PC client configured for PXE booting using an ethernet cable
