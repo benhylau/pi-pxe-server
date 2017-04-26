@@ -48,7 +48,7 @@ If this happens to be your very specific use case as well, then you're in luck. 
 1. Add the [Arc Theme](https://github.com/horst3180/arc-theme) Debian repository:
 
     ```
-    # echo 'deb https://download.opensuse.org/repositories/home:/Horst3180/Debian_8.0/ /' > config/archives/arc-theme.list.chroot
+    # echo 'deb http://download.opensuse.org/repositories/home:/Horst3180/Debian_8.0/ /' > config/archives/arc-theme.list.chroot
     # wget -nv https://download.opensuse.org/repositories/home:Horst3180/Debian_8.0/Release.key -O config/archives/arc-theme.key.chroot
     ```
 
