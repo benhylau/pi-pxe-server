@@ -32,10 +32,10 @@ If this happens to be your very specific use case as well, then you're in luck. 
     	"${@}"
     ```
 
-1. Create the initial configuration tree:
+1. Create the initial configuration tree without recommended packages:
 
     ```
-    # lb config
+    # lb config --apt-recommends false
     ```
 
 1. The [Arduino IDE](http://playground.arduino.cc/Linux/Debian) requires the user to be in the `dialout` group.
@@ -52,10 +52,17 @@ If this happens to be your very specific use case as well, then you're in luck. 
     # wget -nv https://download.opensuse.org/repositories/home:Horst3180/Debian_8.0/Release.key -O config/archives/arc-theme.key.chroot
     ```
 
-1. Select the packages I need and build the live image:
+1. Remove hook that somehow would've caused the build to fail:
 
-	```
-    # echo "task-xfce-desktop arc-theme inkscape arduino" >> config/package-lists/my.list.chroot
+    ```
+    # rm config/hooks/0400-update-apt-file-cache.hook.chroot
+    ```
+
+1. Select the recommended and custom packages I need, then build the live image:
+
+    ```
+    # echo "live-tools user-setup sudo eject" > config/package-lists/recommends.list.chroot
+    # echo "task-xfce-desktop arc-theme iceweasel inkscape arduino" > config/package-lists/my.list.chroot
     # lb build
     ```
 
