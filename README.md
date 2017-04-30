@@ -35,7 +35,7 @@ If this happens to be your very specific use case as well, then you're in luck. 
 1. Create the initial configuration tree without recommended packages:
 
     ```
-    # lb config --apt-recommends false
+    # lb config --distribution stretch --apt-recommends false
     ```
 
 1. The [Arduino IDE](http://playground.arduino.cc/Linux/Debian) requires the user to be in the `dialout` group.
@@ -43,13 +43,6 @@ If this happens to be your very specific use case as well, then you're in luck. 
     ```
     # mkdir -p config/includes.chroot/etc/live/config
     # echo 'LIVE_USER_DEFAULT_GROUPS="audio cdrom dip floppy video plugdev netdev powerdev scanner bluetooth dialout root"' > config/includes.chroot/etc/live/config/user-setup.conf
-    ```
-
-1. Add the [Arc Theme](https://github.com/horst3180/arc-theme) Debian repository:
-
-    ```
-    # echo 'deb http://download.opensuse.org/repositories/home:/Horst3180/Debian_8.0/ /' > config/archives/arc-theme.list.chroot
-    # wget -nv https://download.opensuse.org/repositories/home:Horst3180/Debian_8.0/Release.key -O config/archives/arc-theme.key.chroot
     ```
 
 1. Remove hook that somehow would've caused the build to fail:
@@ -62,7 +55,7 @@ If this happens to be your very specific use case as well, then you're in luck. 
 
     ```
     # echo "live-tools user-setup sudo eject" > config/package-lists/recommends.list.chroot
-    # echo "task-xfce-desktop arc-theme iceweasel inkscape arduino" > config/package-lists/my.list.chroot
+    # echo "task-xfce-desktop arc-theme firefox-esr inkscape arduino" > config/package-lists/my.list.chroot
     # lb build
     ```
 
