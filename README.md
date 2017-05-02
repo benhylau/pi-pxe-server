@@ -14,7 +14,7 @@ If this happens to be your very specific use case as well, then you're in luck. 
 1. Get a root shell and run the commands:
 
     ```
-    # apt-get install -y live-build
+    # apt-get install -y live-build git
     # mkdir -p debian-jessie-amd64/auto
     # cd debian-jessie-amd64/
     # cp /usr/share/doc/live-build/examples/auto/* auto/
@@ -38,11 +38,26 @@ If this happens to be your very specific use case as well, then you're in luck. 
     # lb config --distribution stretch --apt-recommends false
     ```
 
+1. Copy theme files for [LightDM](https://wiki.debian.org/LightDM) and [Xfce](https://wiki.debian.org/Xfce):
+
+    ```
+    # git clone https://github.com/benhylau/pi-pxe-server.git ~/pi-pxe-server
+    # cp -r ~/pi-pxe-server/config/includes.chroot/* config/includes.chroot/
+    ```
+
+1. Download the [Numix Circle](https://github.com/numixproject/numix-icon-theme-circle) icon package:
+
+    ```
+    # git clone https://github.com/numixproject/numix-icon-theme-circle.git ~/numix-icon-theme-circle
+    # mkdir -p config/includes.chroot/usr/share/icons
+    # cp -r ~/numix-icon-theme-circle/Numix-Circle config/includes.chroot/usr/share/icons/
+    ```
+
 1. The [Arduino IDE](http://playground.arduino.cc/Linux/Debian) requires the user to be in the `dialout` group.
 
     ```
-    # mkdir -p config/includes.chroot/etc/live/config
-    # echo 'LIVE_USER_DEFAULT_GROUPS="audio cdrom dip floppy video plugdev netdev powerdev scanner bluetooth dialout root"' > config/includes.chroot/etc/live/config/user-setup.conf
+    # mkdir -p config/includes.chroot/etc/live
+    # echo 'LIVE_USER_DEFAULT_GROUPS="audio cdrom dip floppy video plugdev netdev powerdev scanner bluetooth dialout root"' > config/includes.chroot/etc/live/config.conf
     ```
 
 1. Remove hook that somehow would've caused the build to fail:
@@ -55,7 +70,7 @@ If this happens to be your very specific use case as well, then you're in luck. 
 
     ```
     # echo "live-tools user-setup sudo eject" > config/package-lists/recommends.list.chroot
-    # echo "task-xfce-desktop arc-theme firefox-esr inkscape arduino" > config/package-lists/my.list.chroot
+    # echo "task-xfce-desktop arc-theme numix-icon-theme firefox-esr inkscape arduino" > config/package-lists/my.list.chroot
     # lb build
     ```
 
