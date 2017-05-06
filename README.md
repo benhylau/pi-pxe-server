@@ -82,7 +82,7 @@ The default username is **user** with password **live**. Before building the nex
 
     ```
     $ sudo apt-get update
-    $ sudo apt-get install -y dnsmasq
+    $ sudo apt-get install -y dnsmasq pxelinux syslinux-common
     ```
 
 1. To assign IP addresses and serve TFTP over the `eth0` wired network interface, append the following to the bottom of **/etc/dnsmasq.conf**:
@@ -92,7 +92,6 @@ The default username is **user** with password **live**. Before building the nex
     interface=eth0
     dhcp-range=192.168.0.3,192.168.0.253,255.255.255.0,1h
     dhcp-boot=pxelinux.0,pxeserver,192.168.0.2
-    pxe-service=x86PC, "Debian Live", pxelinux
     enable-tftp
     tftp-root=/srv/tftp
     ```
@@ -100,8 +99,19 @@ The default username is **user** with password **live**. Before building the nex
 1. Configure the TFTP directory serving the images:
 
     ```
-    $ sudo mkdir -p /srv/tftp/pxelinux.cfg
-    $ sudo wget http://ftp.nl.debian.org/debian/dists/jessie/main/installer-amd64/current/images/netboot/pxelinux.0 -O /srv/tftp/pxelinux.0
+    $ sudo mkdir -p /srv/tftp/bios/pxelinux.cfg
+    $ sudo ln -s /usr/lib/PXELINUX/pxelinux.0 /srv/tftp/bios/pxelinux.0
+    $ sudo ln -s /usr/lib/syslinux/modules/bios/ldlinux.c32 /srv/tftp/bios/ldlinux.c32
+    ```
+
+1. Add a default entry to **/srv/tftp/bios/pxelinux.cfg/default** like this:
+
+    ```
+    DEFAULT live
+
+    LABEL live
+    kernel tftp://192.168.0.2/live/vmlinuz
+    append initrd=tftp://192.168.0.2/live/initrd.img boot=live fetch=tftp://192.168.0.2/live/filesystem.squashfs
     ```
 
 1. Copy the Debian Live `.iso` file to the Raspberry Pi, then mount to extract files into the TFTP directory:
@@ -109,18 +119,8 @@ The default username is **user** with password **live**. Before building the nex
     ```
     $ sudo mkdir -p /media/cdrom
     $ sudo mount -o loop /path/to/my.iso /media/cdrom
-    $ sudo cp /media/cdrom/isolinux/ldlinux.c32 /srv/tftp/
     $ sudo cp -r /media/cdrom/live /srv/tftp/
-    ```
-
-1. Add a default entry to **/srv/tftp/pxelinux.cfg/default** like this:
-
-    ```
-    DEFAULT live
-
-    LABEL live
-    kernel live/vmlinuz
-    append boot=live initrd=live/initrd.img fetch=tftp://192.168.0.2/live/filesystem.squashfs
+    $ sudo umount /media/cdrom
     ```
 
 1. Change the `eth0` block in **/etc/network/interfaces** to use a static IP:
