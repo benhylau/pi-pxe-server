@@ -91,14 +91,14 @@ The default username is **user** with password **live**. Before building the nex
     # cd ~/ipxe/src
     ```
 
-1. Create **chain.ipxe** with the following content:
+1. Create **chain.ipxe** with the following content, with appropriate timezone:
 
     ```
     #!ipxe
 
     dhcp
     initrd tftp://192.168.0.2/live/initrd.img
-    chain tftp://192.168.0.2/live/vmlinuz initrd=initrd.img boot=live fetch=tftp://192.168.0.2/live/filesystem.squashfs
+    chain tftp://192.168.0.2/live/vmlinuz initrd=initrd.img boot=live components timezone=America/Toronto fetch=tftp://192.168.0.2/live/filesystem.squashfs
     ```
 
 1. Build the iPXE boot binary:
@@ -159,14 +159,14 @@ The default username is **user** with password **live**. Before building the nex
     # cp /home/pi/ipxe.efi /srv/tftp/uefi/
     ```
 
-1. Add a default entry to **/srv/tftp/bios/pxelinux.cfg/default** like this:
+1. Add a default entry to **/srv/tftp/bios/pxelinux.cfg/default** like this, with appropriate timezone:
 
     ```
     DEFAULT live
 
     LABEL live
     kernel tftp://192.168.0.2/live/vmlinuz
-    append initrd=tftp://192.168.0.2/live/initrd.img boot=live fetch=tftp://192.168.0.2/live/filesystem.squashfs
+    append initrd=tftp://192.168.0.2/live/initrd.img boot=live components timezone=America/Toronto fetch=tftp://192.168.0.2/live/filesystem.squashfs
     ```
 
 1. Copy the Debian Live `.iso` file to the Raspberry Pi, then mount to extract files into the TFTP directory:
