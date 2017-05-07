@@ -36,7 +36,7 @@ If this happens to be your very specific use case as well, then you're in luck. 
 1. Create the initial configuration tree without recommended packages:
 
     ```
-    # lb config --distribution stretch --apt-recommends false
+    # lb config --distribution stretch --archive-areas "main contrib non-free" --apt-recommends false
     ```
 
 1. Copy theme files for [LightDM](https://wiki.debian.org/LightDM) and [Xfce](https://wiki.debian.org/Xfce):
@@ -71,7 +71,9 @@ If this happens to be your very specific use case as well, then you're in luck. 
 
     ```
     # echo "live-tools user-setup sudo eject" > config/package-lists/recommends.list.chroot
-    # echo "task-xfce-desktop arc-theme numix-icon-theme firefox-esr inkscape arduino" > config/package-lists/my.list.chroot
+    # echo "firmware-iwlwifi network-manager-gnome" > config/package-lists/wireless.list.chroot
+    # echo "task-xfce-desktop arc-theme numix-icon-theme" > config/package-lists/desktop.list.chroot
+    # echo "firefox-esr inkscape arduino" > config/package-lists/applications.list.chroot
     # lb build
     ```
 
