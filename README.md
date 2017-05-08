@@ -71,7 +71,7 @@ If this happens to be your very specific use case as well, then you're in luck. 
 
     ```
     # echo "live-tools user-setup sudo eject" > config/package-lists/recommends.list.chroot
-    # echo "firmware-iwlwifi gvfs-backends network-manager-gnome" > config/package-lists/network.list.chroot
+    # echo "firmware-iwlwifi cifs-utils gvfs-backends network-manager-gnome" > config/package-lists/network.list.chroot
     # echo "task-xfce-desktop arc-theme numix-icon-theme" > config/package-lists/desktop.list.chroot
     # echo "firefox-esr inkscape arduino" > config/package-lists/applications.list.chroot
     # lb build
