@@ -15,6 +15,7 @@ If this happens to be your very specific use case as well, then you're in luck. 
 1. Get a root shell and run the commands:
 
     ```
+    # apt-get update
     # apt-get install -y live-build git
     # mkdir -p debian-jessie-amd64/auto
     # cd debian-jessie-amd64/
@@ -59,12 +60,6 @@ If this happens to be your very specific use case as well, then you're in luck. 
     ```
     # mkdir -p config/includes.chroot/etc/live
     # echo 'LIVE_USER_DEFAULT_GROUPS="audio cdrom dip floppy video plugdev netdev powerdev scanner bluetooth dialout root"' > config/includes.chroot/etc/live/config.conf
-    ```
-
-1. Remove hook that somehow would've caused the build to fail:
-
-    ```
-    # rm config/hooks/0400-update-apt-file-cache.hook.chroot
     ```
 
 1. Select the recommended and custom packages I need, then build the custom Debian Live image:
