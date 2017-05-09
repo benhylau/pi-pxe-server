@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Firefox
+Comment=Browse the World Wide Web
+Exec=/usr/lib/firefox-esr/firefox-esr %u
+Icon=firefox-esr
+Path=
+Terminal=false
+StartupNotify=true
