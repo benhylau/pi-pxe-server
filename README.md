@@ -172,7 +172,7 @@ The default username is **user** with password **live**. Before building the nex
     # cp /media/cdrom/live/vmlinuz /srv/tftp/
     # cp /media/cdrom/live/initrd.img /srv/tftp/
     # mkdir -p /var/www/html/live
-    # cp /media/cdrom/live/filesystem.* /www/var/html/live/
+    # cp /media/cdrom/live/filesystem.* /var/www/html/live/
     # umount /media/cdrom
     ```
 
