@@ -98,7 +98,7 @@ The default username is **user** with password **live**. Before building the nex
 
     dhcp
     initrd tftp://192.168.0.2/live/initrd.img
-    chain tftp://192.168.0.2/live/vmlinuz initrd=initrd.img boot=live components timezone=America/Toronto fetch=tftp://192.168.0.2/live/filesystem.squashfs
+    chain tftp://192.168.0.2/live/vmlinuz initrd=initrd.img boot=live components timezone=America/Toronto hooks=http://192.168.0.2/create-autostart fetch=tftp://192.168.0.2/live/filesystem.squashfs
     ```
 
 1. Build the iPXE boot binary:
@@ -125,11 +125,11 @@ The default username is **user** with password **live**. Before building the nex
     pi@raspberrypi:~ $ sudo -i
     ```
 
-1. Get **dnsmasq** for DHCP and TFPT:
+1. Get [dnsmasq](https://packages.debian.org/stretch/dnsmasq) for DHCP and TFPT, [apache2](https://packages.debian.org/stretch/apache2) for HTTP, [pxelinux](https://packages.debian.org/stretch/pxelinux) and [syslinux-common](https://packages.debian.org/stretch/syslinux-common) for PXE booting:
 
     ```
     # apt-get update
-    # apt-get install -y dnsmasq pxelinux syslinux-common
+    # apt-get install -y dnsmasq apache2 pxelinux syslinux-common
     ```
 
 1. To assign IP addresses and serve TFTP over the `eth0` wired network interface, append the following to the bottom of **/etc/dnsmasq.conf**:
@@ -166,7 +166,7 @@ The default username is **user** with password **live**. Before building the nex
 
     LABEL live
     kernel tftp://192.168.0.2/live/vmlinuz
-    append initrd=tftp://192.168.0.2/live/initrd.img boot=live components timezone=America/Toronto fetch=tftp://192.168.0.2/live/filesystem.squashfs
+    append initrd=tftp://192.168.0.2/live/initrd.img boot=live components timezone=America/Toronto hooks=http://192.168.0.2/create-autostart fetch=tftp://192.168.0.2/live/filesystem.squashfs
     ```
 
 1. Copy the Debian Live `.iso` file to the Raspberry Pi, then mount to extract files into the TFTP directory:
@@ -178,6 +178,37 @@ The default username is **user** with password **live**. Before building the nex
     # umount /media/cdrom
     ```
 
+1. I need to automatically run a script when the live user auto-login to the live system. This is accomplished by inserting an autostart entry **/etc/xdg/autostart/autostart.desktop** that runs **/opt/autostart** from the live filesystem. This is accomplished by creating the following **/var/www/html/create-autostart** script, served over HTTP, and executed at boot time as a [live-config](https://packages.debian.org/stretch/live-config) hook:
+
+    ```
+    #!/bin/bash
+
+    WIFI_SSID="MY_SSID"
+    WIFI_PASSWORD="MY_PASSWORD"
+
+    # Create autostart entry
+    mkdir -p /etc/xdg/autostart
+    {
+      echo "[Desktop Entry]"
+      echo "Version=1.0"
+      echo "Type=Application"
+      echo "Name=Autostart"
+      echo "Exec=/opt/autostart"
+      echo "Terminal=false"
+      echo "StartupNotify=false"
+    } > /etc/xdg/autostart/autostart.desktop
+
+    # Create autostart script
+    {
+      echo "#!/bin/bash"
+      echo ""
+      echo "# Connect to WiFi"
+      echo "sleep 10"
+      echo "nmcli device wifi connect \"${WIFI_SSID}\" password \"${WIFI_PASSWORD}\""
+    } > /opt/autostart
+    chmod +x /opt/autostart
+    ```
+    
 1. Change the `eth0` block in **/etc/network/interfaces** to use a static IP:
 
     ```
