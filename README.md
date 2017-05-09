@@ -200,6 +200,9 @@ The default username is **user** with password **live**. Before building the nex
     {
       echo "#!/bin/bash"
       echo ""
+      echo "# Set user directory ownership"
+      echo "sudo chown -R user:user /home/user"
+      echo ""
       echo "# Connect to WiFi"
       echo "sleep 10"
       echo "nmcli device wifi connect \"${WIFI_SSID}\" password \"${WIFI_PASSWORD}\""
