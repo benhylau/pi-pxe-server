@@ -97,8 +97,8 @@ The default username is **user** with password **live**. Before building the nex
     #!ipxe
 
     dhcp
-    initrd tftp://192.168.0.2/live/initrd.img
-    chain tftp://192.168.0.2/live/vmlinuz initrd=initrd.img boot=live components timezone=America/Toronto hooks=http://192.168.0.2/create-autostart fetch=tftp://192.168.0.2/live/filesystem.squashfs
+    initrd tftp://192.168.0.2/initrd.img
+    chain tftp://192.168.0.2/vmlinuz initrd=initrd.img boot=live components timezone=America/Toronto hooks=http://192.168.0.2/create-autostart fetch=http://192.168.0.2/live/filesystem.squashfs
     ```
 
 1. Build the iPXE boot binary:
@@ -165,16 +165,19 @@ The default username is **user** with password **live**. Before building the nex
     DEFAULT live
 
     LABEL live
-    kernel tftp://192.168.0.2/live/vmlinuz
-    append initrd=tftp://192.168.0.2/live/initrd.img boot=live components timezone=America/Toronto hooks=http://192.168.0.2/create-autostart fetch=tftp://192.168.0.2/live/filesystem.squashfs
+    kernel tftp://192.168.0.2/vmlinuz
+    append initrd=tftp://192.168.0.2/initrd.img boot=live components timezone=America/Toronto hooks=http://192.168.0.2/create-autostart fetch=http://192.168.0.2/live/filesystem.squashfs
     ```
 
-1. Copy the Debian Live `.iso` file to the Raspberry Pi, then mount to extract files into the TFTP directory:
+1. Copy the Debian Live `.iso` file to the Raspberry Pi, then mount to extract files into the TFTP and HTTP directories:
 
     ```
     # mkdir -p /media/cdrom
     # mount -o loop /home/pi/live-image-amd64.hybrid.iso /media/cdrom
-    # cp -r /media/cdrom/live /srv/tftp/
+    # cp /media/cdrom/live/vmlinuz /srv/tftp/
+    # cp /media/cdrom/live/initrd.img /srv/tftp/
+    # mkdir -p /var/www/html/live
+    # cp /media/cdrom/live/filesystem.* /www/var/html/live/
     # umount /media/cdrom
     ```
 
