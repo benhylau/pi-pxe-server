@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Inkscape
+Comment=Create and edit Scalable Vector Graphics images
+Exec=inkscape %F
+Icon=inkscape
+Path=
+Terminal=false
+StartupNotify=true
