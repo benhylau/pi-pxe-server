@@ -12,7 +12,7 @@ If this happens to be your very specific use case as well, then you're in luck. 
 * Building an [iPXE](http://ipxe.org) boot binary to chain-load the Debian Live image for clients that support UEFI-only (no support for legacy BIOS)
 * Configuring a Raspberry Pi (I used a Pi 3 so it can get Internet with the on-board WiFi)
 
-Compiling the custom Debian Live image takes about 15 minutes, and the iPXE boot binary takes about a minute. Booting the PC client with a Raspberry Pi 3 as PXE server (from Power-on to Desktop) takes about 100 seconds. The steps are easily adaptable to other single-board computers, and transfer of the 560 MB squashfs (squashed file system) is many times faster on a board with gigabit ethernet, making the overall PC client boot just under a minute.
+Compiling the custom Debian Live image takes about 15 minutes, and the iPXE boot binary takes about a minute. Booting the PC client with a Raspberry Pi 3 as PXE server (from Power-on to Desktop) takes about 100 seconds. The steps are easily adaptable to other single-board computers, and transfer of the 560 MB squashfs (squashed file system) is many times faster on a board with gigabit ethernet, making the overall PC client boot just under a minute. The PXE server works for all PC's, regardless of BIOS or UEFI bootloaders, but does boot Apple computers.
 
 ## Make a custom Debian Live image
 
