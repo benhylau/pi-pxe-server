@@ -185,8 +185,14 @@ The default username is **user** with password **live**. Before building the nex
     ```
     #!/bin/bash
 
-    WIFI_SSID="MY_SSID"
-    WIFI_PASSWORD="MY_PASSWORD"
+    WIFI_SSID="MY_WIFI_SSID"
+    WIFI_PASSWORD="MY_WIFI_PASSWORD"
+    SMB_SERVER_IP="MY_SMB_SERVER_IP"
+    SMB_WORKGROUP="MY_SMB_WORKGROUP"
+    SMB_USER="MY_SMB_USER"
+    SMB_PASSWORD="MY_SMB_PASSWORD"
+    SMB_REMOTE_PATH="/MY/SMB/REMOTE/PATH"
+    SMB_LOCAL_MOUNT="/MY/SMB/LOCAL/MOUNT"
 
     # Create autostart entry
     mkdir -p /etc/xdg/autostart
@@ -210,8 +216,21 @@ The default username is **user** with password **live**. Before building the nex
       echo "# Connect to WiFi"
       echo "sleep 10"
       echo "nmcli device wifi connect \"${WIFI_SSID}\" password \"${WIFI_PASSWORD}\""
+      echo "nmcli device disconnect \$(nmcli device status | grep ethernet | awk print '{print \$1}')"
+      echo ""
+      echo "# Mount network file system"
+      echo "sudo mkdir -p ${SMB_LOCAL_MOUNT}"
+      echo "sudo mount -t cifs -o credentials=/home/user/.smbcredentials,uid=1000,iocharset=utf8 //${SMB_SERVER_IP}${SMB_REMOTE_PATH} ${SMB_LOCAL_MOUNT}"
     } > /opt/autostart
     chmod +x /opt/autostart
+
+    # Configure SMB credentials
+    {
+      echo "workgroup=${SMB_WORKGROUP}"
+      echo "username=${SMB_USER}"
+      echo "password=${SMB_PASSWORD}"
+    } > /home/user/.smbcredentials
+    chmod 600 ~/.smbcredentials
     ```
     
 1. Change the `eth0` block in **/etc/network/interfaces** to use a static IP:
