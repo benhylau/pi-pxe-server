@@ -185,6 +185,7 @@ The default username is **user** with password **live**. Before building the nex
     ```
     #!/bin/bash
 
+    # Set these according to your needs
     WIFI_SSID="MY_WIFI_SSID"
     WIFI_PASSWORD="MY_WIFI_PASSWORD"
     SMB_SERVER_IP="MY_SMB_SERVER_IP"
