@@ -216,7 +216,7 @@ The default username is **user** with password **live**. Before building the nex
       echo "# Connect to WiFi"
       echo "sleep 10"
       echo "nmcli device wifi connect \"${WIFI_SSID}\" password \"${WIFI_PASSWORD}\""
-      echo "nmcli device disconnect \$(nmcli device status | grep ethernet | awk print '{print \$1}')"
+      echo "nmcli device disconnect \$(nmcli device status | grep ethernet | awk '{print \$1}')"
       echo ""
       echo "# Mount network file system"
       echo "sudo mkdir -p ${SMB_LOCAL_MOUNT}"
@@ -231,6 +231,30 @@ The default username is **user** with password **live**. Before building the nex
       echo "password=${SMB_PASSWORD}"
     } > /home/user/.smbcredentials
     chmod 600 ~/.smbcredentials
+
+    # Configure Firefox
+    {
+      echo "// Custom Firefox config"
+      echo "pref(\"general.config.filename\", \"mozilla.cfg\");"
+      echo "pref(\"general.config.obscure_value\", 0);"
+    } > /usr/lib/firefox-esr/defaults/pref/autoconfig.js
+    {
+      echo "// Custom Firefox config"
+      echo "lockPref(\"app.update.enabled\", false);"
+      echo "lockPref(\"app.update.auto\", false);"
+      echo "lockPref(\"app.update.mode\", 0);"
+      echo "lockPref(\"app.update.service.enabled\", false);"
+      echo "clearPref(\"extensions.lastAppVersion\");"
+      echo "pref(\"browser.rights.3.shown\", true);"
+      echo "pref(\"browser.startup.homepage_override.mstone\",\"ignore\");"
+      echo "defaultPref(\"browser.startup.homepage\",\"data:text/plain,browser.startup.homepage=https://www.google.com\");"
+      echo "lockPref(\"plugins.hide_infobar_for_outdated_plugin\", true);"
+      echo "clearPref(\"plugins.update.url\");"
+      echo "lockPref(\"datareporting.healthreport.service.enabled\", false);"
+      echo "lockPref(\"datareporting.policy.dataSubmissionEnabled\", false);"
+      echo "lockPref(\"toolkit.crashreporter.enabled\", false);"
+      echo "Components.classes[\"@mozilla.org/toolkit/crash-reporter;1\"].getService(Components.interfaces.nsICrashReporter).submitReports = false;"
+    } > /usr/lib/firefox-esr/mozilla.cfg
     ```
     
 1. Change the `eth0` block in **/etc/network/interfaces** to use a static IP:
