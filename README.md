@@ -214,6 +214,9 @@ The default username is **user** with password **live**. Before building the nex
       echo "# Set user directory ownership"
       echo "sudo chown -R user:user /home/user"
       echo ""
+      echo "# Disable sleeps and suspensions"
+      echo "sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target"
+      echo ""
       echo "# Connect to WiFi"
       echo "sleep 10"
       echo "nmcli device wifi connect \"${WIFI_SSID}\" password \"${WIFI_PASSWORD}\""
@@ -224,6 +227,9 @@ The default username is **user** with password **live**. Before building the nex
       echo "sudo mount -t cifs -o credentials=/home/user/.smbcredentials,uid=1000,iocharset=utf8 //${SMB_SERVER_IP}${SMB_REMOTE_PATH} ${SMB_LOCAL_MOUNT}"
     } > /opt/autostart
     chmod +x /opt/autostart
+
+    # Disable light-locker
+    echo "Hidden=true" >> /etc/xdg/autostart/light-locker.desktop
 
     # Configure SMB credentials
     {
