@@ -288,3 +288,9 @@ The default username is **user** with password **live**. Before building the nex
         ```
 
 1. Reboot your Raspberry Pi, configure your PC client for PXE booting, then connect them with an ethernet cable
+
+## BONUS: Build a portable Operating System Dispenser
+
+![Operating System Dispenser](operating-system-dispenser.jpg?raw=true)
+
+This particular one uses an [ODROID C2 running Armbian](https://www.armbian.com/odroid-c2/) and a [D-Link GO-SW-5G gigabit switch](http://ca.dlink.com/products/connect/5-port-gigabit-easy-desktop-switch/) that draws 1 A at 5 V, so it's powered by the USB port of the C2 directly with a custom power cable. With gigabit ethernet, the 560 MB **filesystem.squashfs** gets transferred in seconds, and a PC client boots just under a minute. The 5-port switch allows multiple PC clients to be booted simultaneously.
