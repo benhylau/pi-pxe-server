@@ -228,6 +228,12 @@ The default username is **user** with password **live**. Before building the nex
     } > /opt/autostart
     chmod +x /opt/autostart
 
+    # Ignore laptop lid close
+    {
+      echo "HandleLidSwitch=ignore"
+      echo "HandleLidSwitchDocked=ignore"
+    } >> /etc/systemd/logind.conf
+
     # Disable light-locker
     echo "Hidden=true" >> /etc/xdg/autostart/light-locker.desktop
 
