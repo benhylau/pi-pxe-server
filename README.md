@@ -303,6 +303,8 @@ The default username is **user** with password **live**. Before building the nex
 
 ## BONUS: Build a portable Operating System Dispenser
 
-![Operating System Dispenser](operating-system-dispenser.jpg?raw=true)
+![Operating System Dispenser](osd.jpg?raw=true)
 
 This particular one uses an [ODROID C2 running Armbian](https://www.armbian.com/odroid-c2/) and a [D-Link GO-SW-5G gigabit switch](http://ca.dlink.com/products/connect/5-port-gigabit-easy-desktop-switch/) that draws 1 A at 5 V, so it's powered by the USB port of the C2 directly with a custom power cable. With gigabit ethernet, the 560 MB **filesystem.squashfs** gets transferred in seconds, and a PC client boots just under a minute. The 5-port switch allows multiple PC clients to be booted simultaneously.
+
+Laser cut templates are include in the **osd** directory. Red lines are engravings and black lines cut through on 3mm acrylic. All mount holes fit M3 screws, but for the Raspberry Pi use M2.5 screws for mounting the board. Both the small and large cases should work with the Raspberry Pi 2 and 3, as well as the ODROID C2. The large case adds additional room for the D-Link switch and a bottom layer to hide all the extra cables.
