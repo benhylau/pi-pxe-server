@@ -224,7 +224,8 @@ The default username is **user** with password **live**. Before building the nex
       echo ""
       echo "# Mount network file system"
       echo "sudo mkdir -p ${SMB_LOCAL_MOUNT}"
-      echo "sudo mount -t cifs -o credentials=/home/user/.smbcredentials,uid=1000,iocharset=utf8 //${SMB_SERVER_IP}${SMB_REMOTE_PATH} ${SMB_LOCAL_MOUNT}"
+      echo "echo \"//${SMB_SERVER_IP}${SMB_REMOTE_PATH} ${SMB_LOCAL_MOUNT} cifs credentials=/home/user/.smbcredentials,uid=1000,iocharset=utf8 0 0\" | sudo tee --append /etc/fstab"
+      echo "sudo mount -a"
     } > /opt/autostart
     chmod +x /opt/autostart
 
