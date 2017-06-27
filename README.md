@@ -226,6 +226,9 @@ The default username is **user** with password **live**. Before building the nex
       echo "sudo mkdir -p ${SMB_LOCAL_MOUNT}"
       echo "echo \"//${SMB_SERVER_IP}${SMB_REMOTE_PATH} ${SMB_LOCAL_MOUNT} cifs rw,_netdev,credentials=/home/user/.smbcredentials,uid=1000,iocharset=utf8 0 0\" | sudo tee --append /etc/fstab"
       echo "sudo mount -a"
+      echo ""
+      echo "# Keep alive network mount"
+      echo "(crontab -l; echo \"*/5 * * * * touch ${SMB_LOCAL_MOUNT}/.fskeepalive\") 2>/dev/null | crontab"
     } > /opt/autostart
     chmod +x /opt/autostart
 
